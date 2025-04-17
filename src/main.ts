@@ -58,10 +58,32 @@ async function getActress(id: number): Promise<Actress | null> {
     return data
   } catch (err) {
     if (err instanceof Error) {
-      console.error("Errore nella chiamata", err)
+      console.error("Errore nel recupero dell'attrice", err)
     } else {
       console.error("Errore sconosciuto", err)
     }
     return null
+  }
+}
+
+async function getAllActress(): Promise<Actress[]> {
+  try {
+    const response = await fetch("https://boolean-spec-frontend.vercel.app/freetestapi/actresses")
+    if (!response.ok) {
+      throw new Error(`Errore HTTP ${response.status}: ${response.statusText}`)
+    }
+    const data: unknown = response.json()
+    if (!(data instanceof Array)) {
+      throw new Error("Formato dei dati non valido")
+    }
+    const validActress: Actress[] = data.filter(a => isActress(a))
+    return validActress
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error("Errore nel recupero delle attrici", err)
+    } else {
+      console.error("Errore sconosciuto", err)
+    }
+    return []
   }
 }
