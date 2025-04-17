@@ -239,3 +239,18 @@ function updateActor(actor: Actor, updates: Partial<Omit<Actor, "id" | "name">>)
     ...updates,
   }
 }
+
+
+async function createRandomCouple(): Promise<[Actress, Actor] | null> {
+  const [actresses, actors] = await Promise.all([getAllActresses(), getAllActors()])
+  if (actresses.length === 0 || actors.length === 0) {
+    return null
+  } else {
+    const randomActress = actresses[Math.floor(Math.random() * actresses.length)]
+    const randomActors = actors[Math.floor(Math.random() * actors.length)]
+    console.log(randomActress, randomActors)
+    return [randomActress, randomActors]
+  }
+}
+
+createRandomCouple()
